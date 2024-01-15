@@ -36,17 +36,10 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(spdlog)
 message("Spdlog fetched")
 
-# Sets log level. For release builds, we set it to INFO, for RelWithDebInfo builds,
-# we set it to DEBUG, and for debug builds, we set it to TRACE.
-if (CMAKE_BUILD_TYPE STREQUAL "Release")
-  message("Setting log level to INFO")
-  add_definitions(-DSPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_INFO)
-elseif (CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-  message("Setting log level to DEBUG")
-  add_definitions(-DSPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_DEBUG)
-else()
-  message("Setting log level to TRACE")
-  add_definitions(-DSPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE)
+# Used so we can remove all debug log calls on release.
+if (NOT CMAKE_BUILD_TYPE STREQUAL "Release")
+  message("Building with debug logs")
+  add_compile_definitions(SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE)
 endif()
 
 add_subdirectory(src/data_structures)
