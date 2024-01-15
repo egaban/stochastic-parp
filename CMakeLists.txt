@@ -1,14 +1,11 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.26)
 
 project(StochasticPARP)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
-# Option to enable/disable building tests
-option(BUILD_TESTING "Build tests" ON)
 
 if (NOT CMAKE_BUILD_TYPE STREQUAL "Release")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer")
@@ -39,7 +36,22 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(spdlog)
 message("Spdlog fetched")
 
+# Sets log level. For release builds, we set it to INFO, for RelWithDebInfo builds,
+# we set it to DEBUG, and for debug builds, we set it to TRACE.
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
+  message("Setting log level to INFO")
+  add_definitions(-DSPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_INFO)
+elseif (CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+  message("Setting log level to DEBUG")
+  add_definitions(-DSPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_DEBUG)
+else()
+  message("Setting log level to TRACE")
+  add_definitions(-DSPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE)
+endif()
+
 add_subdirectory(src/data_structures)
 
 add_executable(main src/main.cpp)
+
+target_link_libraries(main data_structures)
 
