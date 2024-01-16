@@ -11,9 +11,9 @@ if (NOT CMAKE_BUILD_TYPE STREQUAL "Release")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer")
 endif()
 
-# Fetch Google Test
 include(FetchContent)
 
+# Fetch Google Test
 if (BUILD_TESTING)
   message("Fetching Google Test...")
   FetchContent_Declare(
@@ -36,6 +36,15 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(spdlog)
 message("Spdlog fetched")
 
+message("Fetching Toml++...")
+FetchContent_Declare(
+    tomlplusplus
+    GIT_REPOSITORY https://github.com/marzer/tomlplusplus.git
+    GIT_TAG        v3.4.0
+)
+FetchContent_MakeAvailable(tomlplusplus)
+message("Toml++ fetched")
+
 # Used so we can remove all debug log calls on release.
 if (NOT CMAKE_BUILD_TYPE STREQUAL "Release")
   message("Building with debug logs")
@@ -46,5 +55,9 @@ add_subdirectory(src/data_structures)
 
 add_executable(main src/main.cpp)
 
-target_link_libraries(main data_structures)
+target_link_libraries(main 
+  PRIVATE 
+    data_structures
+    tomlplusplus::tomlplusplus
+)
 
