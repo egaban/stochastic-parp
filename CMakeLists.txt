@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.26)
 
 project(StochasticPARP)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -53,11 +53,21 @@ endif()
 
 add_subdirectory(src/data_structures)
 
-add_executable(main src/main.cpp)
+# Main lib
+add_subdirectory(src)
 
-target_link_libraries(main 
-  PRIVATE 
-    data_structures
+if (BUILD_TESTING)
+  add_subdirectory(test)
+endif()
+
+add_executable(main
+  main.cpp
+)
+
+target_link_libraries(main
+  PRIVATE
+    StochasticPARP
+    spdlog::spdlog
     tomlplusplus::tomlplusplus
 )
 

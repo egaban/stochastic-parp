@@ -1,4 +1,5 @@
 #include <spdlog/spdlog.h>
+#include <stochastic_parp/parser.h>
 
 #include <toml++/toml.hpp>
 

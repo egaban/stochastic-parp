@@ -24,7 +24,13 @@ class Arc {
  public:
   Arc(int from, int to, int cost, int profit);
 
-  int from() const { return from_; }
+  [[nodiscard]] int from() const { return from_; }
+  [[nodiscard]] int to() const { return to_; }
+  [[nodiscard]] int cost() const { return cost_; }
+  [[nodiscard]] int profit() const {
+    return profit_;
+    ;
+  }
 };
 
 class Graph {
@@ -35,8 +41,8 @@ class Graph {
  public:
   Graph(int num_vertices);
 
-  int num_vertices() const { return vertices_.size(); }
-  int num_arcs() const { return arcs_.size(); }
+  [[nodiscard]] size_t num_vertices() const { return vertices_.size(); }
+  [[nodiscard]] size_t num_arcs() const { return arcs_.size(); }
 
-  const auto& vertices() const { return vertices_; }
+  [[nodiscard]] const auto& vertices() const { return vertices_; }
 };
