@@ -1,18 +1,36 @@
-#include "parser.cpp"
-
 #include <gtest/gtest.h>
+
+// So we don't have to change the original code, or link
+// against GTest.
+#define private public
 #include <stochastic_parp/parser.h>
+#undef private
 
 const char* const test_file = TEST_DATA_DIR "/instance.txt";
 
-// TEST(ParserTest, ParseFile) {
-//   auto graph = read_file(test_file);
-//   EXPECT_EQ(graph.vertices().size(), 179);
-// }
+class ParserTest : public ::testing::Test {
+ protected:
+  Parser parser{test_file};
+};
 
-TEST(ParserTest, SplitWhitespace) {
+TEST_F(ParserTest, NumVertices) {
+  auto instance = parser.ParseFile();
+  EXPECT_EQ(instance.graph().num_vertices(), 179);
+}
+
+TEST_F(ParserTest, NumArcs) {
+  auto instance = parser.ParseFile();
+  EXPECT_EQ(instance.graph().num_arcs(), 499);
+}
+
+TEST_F(ParserTest, NumBlocks) {
+  auto instance = parser.ParseFile();
+  EXPECT_EQ(instance.num_blocks(), 73);
+}
+
+TEST_F(ParserTest, SplitWhitespace) {
   auto line = std::string{"1  -2\t\tabc         def 1.0"};
-  auto result = split_whitespace(line);
+  auto result = parser.SplitWhitespace(line);
 
   EXPECT_EQ(result.size(), 5);
   EXPECT_EQ(result[0], "1");

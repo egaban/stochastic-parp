@@ -16,16 +16,16 @@ class Vertex {
 
 class Arc {
  private:
-  int from_;
-  int to_;
+  std::shared_ptr<Vertex> from_;
+  std::shared_ptr<Vertex> to_;
   int cost_;
   int profit_;
 
  public:
   Arc(int from, int to, int cost, int profit);
 
-  [[nodiscard]] int from() const { return from_; }
-  [[nodiscard]] int to() const { return to_; }
+  [[nodiscard]] const auto& from() const { return from_; }
+  [[nodiscard]] const auto& to() const { return to_; }
   [[nodiscard]] int cost() const { return cost_; }
   [[nodiscard]] int profit() const {
     return profit_;
@@ -37,6 +37,8 @@ class Graph {
  private:
   std::vector<std::shared_ptr<Vertex>> vertices_;
   std::vector<std::shared_ptr<Arc>> arcs_;
+
+  friend class Parser;
 
  public:
   Graph(int num_vertices);

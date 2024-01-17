@@ -5,14 +5,16 @@
 #include <sstream>
 #include <string>
 
-static Graph parse_file(std::ifstream& file);
-static Graph parse_header(std::ifstream& file);
+Parser::Parser(const char* filename) : iss_{filename} {
+  if (!iss_.is_open()) {
+    SPDLOG_CRITICAL("Failed to open file {}.", filename);
+    exit(1);
+  }
+}
 
-/**
- * Splits a string into a vector of string views, using whitespace characters
- * as the delimiter.
- * */
-static auto split_whitespace(const std::string& line) {
+Instance Parser::ParseFile() { return this->ParseHeader(); }
+
+std::vector<std::string> Parser::SplitWhitespace(const std::string& line) {
   std::istringstream iss{line};
 
   std::vector<std::string> result;
@@ -23,23 +25,15 @@ static auto split_whitespace(const std::string& line) {
   return result;
 }
 
-Graph read_file(const char* filename) {
-  std::ifstream file(filename);
+Instance Parser::ParseHeader() {
+  std::string line;
+  std::getline(this->iss_, line);
 
-  if (!file.is_open()) {
-    SPDLOG_CRITICAL("Failed to open file {}.", filename);
-    exit(1);
-  }
+  auto split = SplitWhitespace(line);
 
-  return parse_file(file);
-}
+  auto num_vertices = std::stoi(split[0]);
+  auto num_arcs = std::stoi(split[1]);
+  auto num_blocks = std::stoi(split[2]);
 
-Graph parse_file(std::ifstream& file) {
-  auto result = parse_header(file);
-  return result;
-}
-
-Graph parse_header(std::ifstream& file) {
-  // std::string line;
-  // std::getline(file, line);
+  return Instance{num_vertices, num_arcs, num_blocks};
 }
