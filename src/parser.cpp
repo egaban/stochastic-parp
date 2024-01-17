@@ -2,24 +2,24 @@
 #include <stochastic_parp/parser.h>
 
 #include <fstream>
-#include <ranges>
+#include <sstream>
 #include <string>
 
 static Graph parse_file(std::ifstream& file);
 static Graph parse_header(std::ifstream& file);
 
 /**
- * Splits a string into a vector of string views, using whitespace as the
- * delimiter. Note that this returns a string view, so you cannot use the
- * result after the original string has been destroyed.
- */
+ * Splits a string into a vector of string views, using whitespace characters
+ * as the delimiter.
+ * */
 static auto split_whitespace(const std::string& line) {
-  auto split = line | std::ranges::views::split(' ');
+  std::istringstream iss{line};
 
-  std::vector<std::string_view> result;
-  for (auto&& s : split) {
+  std::vector<std::string> result;
+  for (std::string s; iss >> s;) {
     result.emplace_back(s);
   }
+
   return result;
 }
 

@@ -1,7 +1,6 @@
 #include "parser.cpp"
 
 #include <gtest/gtest.h>
-#include <spdlog/spdlog.h>
 #include <stochastic_parp/parser.h>
 
 const char* const test_file = TEST_DATA_DIR "/instance.txt";
@@ -12,7 +11,7 @@ const char* const test_file = TEST_DATA_DIR "/instance.txt";
 // }
 
 TEST(ParserTest, SplitWhitespace) {
-  auto line = std::string{"1 -2 abc def 1.0"};
+  auto line = std::string{"1  -2\t\tabc         def 1.0"};
   auto result = split_whitespace(line);
 
   EXPECT_EQ(result.size(), 5);
