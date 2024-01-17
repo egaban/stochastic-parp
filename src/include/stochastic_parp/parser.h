@@ -19,10 +19,18 @@ class Parser {
  private:
   [[nodiscard]] Instance ParseHeader();
 
+  void ParseVertices(Instance& instance);
+  void ParseArcs(Instance& instance);
+
   /**
-   * Splits a string into a vector of string views, using whitespace characters
+   * Splits a string into a vector of strings, using whitespace characters
    * as the delimiter.
    * */
   [[nodiscard]] static std::vector<std::string> SplitWhitespace(
       const std::string& line);
+
+  /**
+   * Parses the list of blocks (comma-separated) into a vector of ints.
+   * */
+  [[nodiscard]] static std::vector<int> ParseBlocks(const std::string& line);
 };
