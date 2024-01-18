@@ -5,7 +5,8 @@
 class Block {
  private:
   int id_;
-  std::vector<std::shared_ptr<Vertex>> vertices_;
+  std::vector<std::weak_ptr<Vertex>> vertices_;
+  std::vector<std::weak_ptr<Arc>> arcs_;
 
   friend class Parser;
 
@@ -14,6 +15,7 @@ class Block {
 
   [[nodiscard]] int id() const { return id_; }
   [[nodiscard]] const auto& vertices() const { return vertices_; }
+  [[nodiscard]] const auto& arcs() const { return arcs_; }
 };
 
 class Instance {

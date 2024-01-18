@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <optional>
 #include <vector>
 
 class Arc;
@@ -22,17 +23,18 @@ class Arc {
  private:
   std::weak_ptr<Vertex> from_;
   std::weak_ptr<Vertex> to_;
-  int cost_;
+  std::optional<std::weak_ptr<Block>> block_;
   int profit_;
+  double size_;
 
   friend class Parser;
 
  public:
-  Arc(int from, int to, int cost, int profit);
+  Arc(std::weak_ptr<Vertex> from, std::weak_ptr<Vertex> to,
+      std::optional<std::weak_ptr<Block>> block, int profit, double size);
 
   [[nodiscard]] const auto& from() const { return from_; }
   [[nodiscard]] const auto& to() const { return to_; }
-  [[nodiscard]] int cost() const { return cost_; }
   [[nodiscard]] int profit() const {
     return profit_;
     ;

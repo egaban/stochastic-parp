@@ -15,6 +15,7 @@ Parser::Parser(const char* filename) : iss_{filename} {
 Instance Parser::ParseFile() {
   auto result = this->ParseHeader();
   this->ParseVertices(result);
+  this->ParseArcs(result);
   return result;
 }
 
@@ -83,5 +84,42 @@ void Parser::ParseVertices(Instance& instance) {
       vertex->blocks_.emplace_back(block);
       block->vertices_.emplace_back(vertex);
     }
+  }
+}
+
+void Parser::ParseArcs(Instance& instance) {
+  SPDLOG_TRACE("Parsing arcs...");
+  for (auto i = 0; i < this->num_arcs_; ++i) {
+    std::string line;
+    std::getline(this->iss_, line);
+    auto split = SplitWhitespace(line);
+    SPDLOG_TRACE("Parsing arc {}", i);
+    auto n = split[0];
+    assert(n == "A");
+
+    auto from_num = std::stoi(split[1]);
+    assert(from_num < instance.graph().num_vertices());
+    auto from = instance.graph().vertices_[from_num];
+
+    auto to_num = std::stoi(split[2]);
+    assert(to_num < instance.graph().num_vertices());
+    auto to = instance.graph().vertices_[to_num];
+
+    auto size = std::stod(split[3]);
+    auto profit = std::stoi(split[5]);
+    auto block_num = std::stoi(split[4]);
+
+    auto block = std::optional<std::weak_ptr<Block>>{};
+    if (block_num >= 0) {
+      assert(block_num < instance.blocks().size());
+      block = std::make_optional(instance.blocks_[block_num]);
+    }
+
+    auto arc = std::make_shared<Arc>(from, to, block, profit, size);
+
+    instance.graph_.arcs_.emplace_back(arc);
+
+    instance.graph_.vertices_[from_num]->outgoing_arcs_.emplace_back(arc);
+    instance.graph_.vertices_[to_num]->incoming_arcs_.emplace_back(arc);
   }
 }
