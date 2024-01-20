@@ -68,6 +68,5 @@ target_link_libraries(main
   PRIVATE
     StochasticPARP
     spdlog::spdlog
-    tomlplusplus::tomlplusplus
 )
 

@@ -52,8 +52,8 @@ Instance Parser::ParseHeader() {
   this->num_arcs_ = std::stoi(split[1]);
   this->num_blocks_ = std::stoi(split[2]);
 
-  SPDLOG_TRACE("Instance has {} vertices, {} arcs and {} blocks",
-               this->num_vertices_, this->num_arcs_, this->num_blocks_);
+  SPDLOG_INFO("Instance has {} vertices, {} arcs and {} blocks",
+              this->num_vertices_, this->num_arcs_, this->num_blocks_);
 
   return Instance{this->num_vertices_, this->num_arcs_, this->num_blocks_};
 }
