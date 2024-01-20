@@ -10,6 +10,7 @@ target_include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/include
   PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${GUROBI_INCLUDE_DIR}
 )
 
 target_link_libraries(StochasticPARP
@@ -17,4 +18,7 @@ target_link_libraries(StochasticPARP
     data_structures
   PRIVATE
     tomlplusplus::tomlplusplus
+    ${GUROBI_CXX_LIBRARY}
+    ${GUROBI_LIBRARY}
+    ${GUROBI_CXX_LIBRARY}
 )

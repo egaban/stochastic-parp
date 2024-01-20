@@ -1,3 +1,8 @@
+# Dependencies
+
+- C++23 compiler
+- Gurobi 11
+
 # Build
 
 Debug build

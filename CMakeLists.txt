@@ -11,6 +11,12 @@ if (NOT CMAKE_BUILD_TYPE STREQUAL "Release")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer")
 endif()
 
+
+# Print the current shell
+set(CXX ON)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+find_package(GUROBI REQUIRED)
+
 include(FetchContent)
 
 # Fetch Google Test
