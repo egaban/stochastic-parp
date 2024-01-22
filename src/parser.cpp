@@ -12,11 +12,11 @@ Parser::Parser(const char* filename) : iss_{filename} {
   }
 }
 
-Instance Parser::ParseFile() {
+std::shared_ptr<Instance> Parser::ParseFile() {
   auto result = this->ParseHeader();
   this->ParseVertices(result);
   this->ParseArcs(result);
-  return result;
+  return std::make_shared<Instance>(result);
 }
 
 std::vector<std::string> Parser::SplitWhitespace(const std::string& line) {

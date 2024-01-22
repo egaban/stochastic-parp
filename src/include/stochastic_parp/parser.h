@@ -3,6 +3,7 @@
 #include <stochastic_parp/instance.h>
 
 #include <fstream>
+#include <memory>
 
 class Parser {
  private:
@@ -14,7 +15,7 @@ class Parser {
  public:
   explicit Parser(const char* filename);
 
-  [[nodiscard]] Instance ParseFile();
+  [[nodiscard]] std::shared_ptr<Instance> ParseFile();
 
  private:
   [[nodiscard]] Instance ParseHeader();
