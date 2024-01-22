@@ -1,5 +1,6 @@
 #pragma once
 
+#include <format>
 #include <memory>
 #include <optional>
 #include <vector>
@@ -9,6 +10,7 @@ class Block;
 
 class Vertex {
  private:
+  int id_;
   std::vector<std::weak_ptr<Arc>> incoming_arcs_;
   std::vector<std::weak_ptr<Arc>> outgoing_arcs_;
   std::vector<std::weak_ptr<Block>> blocks_;
@@ -16,7 +18,19 @@ class Vertex {
   friend class Parser;
 
  public:
-  Vertex();
+  Vertex(int id);
+
+  bool operator==(const Vertex& other) const { return this->id_ == other.id_; }
+
+  [[nodiscard]] auto id() const { return this->id_; }
+
+  [[nodiscard]] const auto& incoming_arcs() const {
+    return this->incoming_arcs_;
+  }
+
+  [[nodiscard]] const auto& outgoing_arcs() const {
+    return this->outgoing_arcs_;
+  }
 };
 
 class Arc {
@@ -33,11 +47,20 @@ class Arc {
   Arc(std::weak_ptr<Vertex> from, std::weak_ptr<Vertex> to,
       std::optional<std::weak_ptr<Block>> block, int profit, double size);
 
+  bool operator==(const Arc& other) const {
+    return this->to_.lock() == other.to_.lock() &&
+           this->from_.lock() == other.from_.lock();
+  }
+
   [[nodiscard]] const auto& from() const { return from_; }
   [[nodiscard]] const auto& to() const { return to_; }
   [[nodiscard]] int profit() const {
     return profit_;
     ;
+  }
+
+  [[nodiscard]] auto variable_name() const {
+    return std::format("x_{}_{}", from_.lock()->id(), to_.lock()->id());
   }
 };
 
@@ -54,5 +77,14 @@ class Graph {
   [[nodiscard]] size_t num_vertices() const { return vertices_.size(); }
   [[nodiscard]] size_t num_arcs() const { return arcs_.size(); }
 
-  [[nodiscard]] const auto& vertices() const { return vertices_; }
+  [[nodiscard]] const auto& vertices() const { return this->vertices_; }
+  [[nodiscard]] const auto& arcs() const { return this->arcs_; }
+};
+
+template <>
+struct std::hash<Arc> {
+  std::size_t operator()(const Arc& arc) const {
+    auto var_name = arc.variable_name();
+    return std::hash<std::string>{}(var_name);
+  }
 };

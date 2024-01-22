@@ -15,9 +15,11 @@ class Config {
   Config& operator=(Config&&) = delete;
 
   [[nodiscard]] static const std::string& GetLogLevel();
+  [[nodiscard]] static bool write_model();
 
  private:
-  std::string log_level_;
+  std::string log_level_ = "info";
+  bool write_model_ = false;
 
   static const auto& Get() {
     const static Config instance{"config.toml"};

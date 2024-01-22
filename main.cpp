@@ -1,5 +1,6 @@
 #include <spdlog/spdlog.h>
 #include <stochastic_parp/config.h>
+#include <stochastic_parp/model.h>
 #include <stochastic_parp/parser.h>
 
 static void ConfigureLogger();
@@ -14,6 +15,9 @@ int main(int argc, char** argv) {
   }
 
   auto instance = Parser{args[1]}.ParseFile();
+  auto model = Model{instance};
+
+  model.Solve();
 
   return 0;
 }

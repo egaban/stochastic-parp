@@ -16,7 +16,7 @@ std::shared_ptr<Instance> Parser::ParseFile() {
   auto result = this->ParseHeader();
   this->ParseVertices(result);
   this->ParseArcs(result);
-  return std::make_shared<Instance>(result);
+  return std::make_shared<Instance>(std::move(result));
 }
 
 std::vector<std::string> Parser::SplitWhitespace(const std::string& line) {

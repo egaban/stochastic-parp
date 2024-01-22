@@ -3,7 +3,7 @@
 
 #include <utility>
 
-Vertex::Vertex() : incoming_arcs_(), outgoing_arcs_() {}
+Vertex::Vertex(int id) : id_(id), incoming_arcs_(), outgoing_arcs_() {}
 
 Arc::Arc(std::weak_ptr<Vertex> from, std::weak_ptr<Vertex> to,
          std::optional<std::weak_ptr<Block>> block, int profit, double size)
@@ -17,6 +17,6 @@ Graph::Graph(int num_vertices) {
   spdlog::trace("Creating graph with {} vertices", num_vertices);
   vertices_.reserve(num_vertices);
   for (int i = 0; i < num_vertices; ++i) {
-    vertices_.push_back(std::make_shared<Vertex>());
+    vertices_.push_back(std::make_shared<Vertex>(i));
   }
 }

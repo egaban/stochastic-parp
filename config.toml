@@ -1,1 +1,4 @@
 log_level = 'debug'
+
+[debug]
+write_model = true
