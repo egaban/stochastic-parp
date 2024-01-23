@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug-gcc/_deps/spdlog-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug-gcc/_deps/tomlplusplus-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug-llvm/_deps/spdlog-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug-llvm/_deps/tomlplusplus-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-release-gcc/_deps/spdlog-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-release-gcc/_deps/tomlplusplus-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-release-llvm/_deps/spdlog-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-release-llvm/_deps/tomlplusplus-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-relwithdebinfo-gcc/_deps/spdlog-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-relwithdebinfo-gcc/_deps/tomlplusplus-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-relwithdebinfo-llvm/_deps/spdlog-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-relwithdebinfo-llvm/_deps/tomlplusplus-src" vcs="Git" />
+  </component>
+</project>
