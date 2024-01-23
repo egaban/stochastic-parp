@@ -84,9 +84,9 @@ class Graph {
   [[nodiscard]] const auto& arcs() const { return this->arcs_; }
 
   // Returns the total arc cost sum of the graph.
-  [[nodiscard]] int total_cost() const {
+  [[nodiscard]] double total_cost() const {
     return std::accumulate(
-        arcs_.begin(), arcs_.end(), 0,
+        arcs_.begin(), arcs_.end(), 0.0,
         [](int sum, const auto& arc) { return sum + arc->cost(); });
   }
 };

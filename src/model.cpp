@@ -1,3 +1,4 @@
+#include <data_structures/unionfind.h>
 #include <gurobi_c++.h>
 #include <spdlog/spdlog.h>
 #include <stochastic_parp/config.h>
@@ -64,13 +65,11 @@ void Model::CreateMaxBudgetConstraint() {
   SPDLOG_DEBUG("Creating budget constraint");
   GRBLinExpr budget_expr;
   for (const auto& arc : this->instance_->graph().arcs()) {
-    budget_expr += this->arc_to_variable_.at(*arc);
+    budget_expr += arc->cost() * this->arc_to_variable_.at(*arc);
   }
 
-  // TODO: This budget will be changed.
-  constexpr double kBudget = 0.05;
-  auto budget =
-      static_cast<double>(this->instance_->graph().num_arcs()) * kBudget;
+  auto budget = static_cast<double>(this->instance_->graph().total_cost()) *
+                Config::arcs_budget();
   SPDLOG_DEBUG("Budget: {}", budget);
   this->model_->addConstr(budget_expr, GRB_LESS_EQUAL, budget, "budget");
 }
