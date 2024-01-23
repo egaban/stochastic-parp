@@ -97,17 +97,17 @@ void Parser::ParseArcs(Instance& instance) {
     auto n = split[0];
     assert(n == "A");
 
-    auto from_num = std::stoi(split[1]);
+    const auto from_num = std::stoi(split[1]);
     assert(from_num < instance.graph().num_vertices());
     auto from = instance.graph().vertices_[from_num];
 
-    auto to_num = std::stoi(split[2]);
+    const auto to_num = std::stoi(split[2]);
     assert(to_num < instance.graph().num_vertices());
     auto to = instance.graph().vertices_[to_num];
 
     auto size = std::stod(split[3]);
     auto profit = std::stoi(split[5]);
-    auto block_num = std::stoi(split[4]);
+    const auto block_num = std::stoi(split[4]);
 
     auto block = std::optional<std::weak_ptr<Block>>{};
     if (block_num >= 0) {
@@ -115,7 +115,7 @@ void Parser::ParseArcs(Instance& instance) {
       block = std::make_optional(instance.blocks_[block_num]);
     }
 
-    auto arc = std::make_shared<Arc>(from, to, block, profit, size);
+    auto arc = std::make_shared<Arc>(from, to, block, profit, i, size);
 
     instance.graph_.arcs_.emplace_back(arc);
 

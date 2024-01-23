@@ -6,11 +6,13 @@
 Vertex::Vertex(int id) : id_(id), incoming_arcs_(), outgoing_arcs_() {}
 
 Arc::Arc(std::weak_ptr<Vertex> from, std::weak_ptr<Vertex> to,
-         std::optional<std::weak_ptr<Block>> block, int profit, double size)
+         std::optional<std::weak_ptr<Block>> block, int profit, int id,
+         double size)
     : from_(std::move(from)),
       to_(std::move(to)),
       block_(std::move(block)),
       profit_(profit),
+      id_{id},
       size_(size) {}
 
 Graph::Graph(int num_vertices) {

@@ -40,13 +40,15 @@ class Arc {
   std::weak_ptr<Vertex> to_;
   std::optional<std::weak_ptr<Block>> block_;
   int profit_;
+  int id_;
   double size_;
 
   friend class Parser;
 
  public:
   Arc(std::weak_ptr<Vertex> from, std::weak_ptr<Vertex> to,
-      std::optional<std::weak_ptr<Block>> block, int profit, double size);
+      std::optional<std::weak_ptr<Block>> block, int profit, int id,
+      double size);
 
   bool operator==(const Arc& other) const {
     return this->to_.lock() == other.to_.lock() &&
@@ -61,10 +63,12 @@ class Arc {
   }
 
   [[nodiscard]] auto variable_name() const {
-    return std::format("x_{}_{}", from_.lock()->id(), to_.lock()->id());
+    return std::format("x{}({},{})", this->id_, from_.lock()->id(),
+                       to_.lock()->id());
   }
 
   [[nodiscard]] auto cost() const { return size_; }
+  [[nodiscard]] auto id() const { return this->id_; }
 };
 
 class Graph {
@@ -94,6 +98,6 @@ class Graph {
 template <>
 struct std::hash<Arc> {
   std::size_t operator()(const Arc& arc) const noexcept {
-    return std::hash<std::string>{}(arc.variable_name());
+    return std::hash<int>{}(arc.id());
   }
 };
