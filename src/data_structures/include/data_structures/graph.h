@@ -2,6 +2,7 @@
 
 #include <format>
 #include <memory>
+#include <numeric>
 #include <optional>
 #include <vector>
 
@@ -62,6 +63,8 @@ class Arc {
   [[nodiscard]] auto variable_name() const {
     return std::format("x_{}_{}", from_.lock()->id(), to_.lock()->id());
   }
+
+  [[nodiscard]] auto cost() const { return size_; }
 };
 
 class Graph {
@@ -79,6 +82,13 @@ class Graph {
 
   [[nodiscard]] const auto& vertices() const { return this->vertices_; }
   [[nodiscard]] const auto& arcs() const { return this->arcs_; }
+
+  // Returns the total arc cost sum of the graph.
+  [[nodiscard]] int total_cost() const {
+    return std::accumulate(
+        arcs_.begin(), arcs_.end(), 0,
+        [](int sum, const auto& arc) { return sum + arc->cost(); });
+  }
 };
 
 template <>
