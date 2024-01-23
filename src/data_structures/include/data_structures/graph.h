@@ -19,7 +19,7 @@ class Vertex {
   friend class Parser;
 
  public:
-  Vertex(int id);
+  explicit Vertex(int id);
 
   bool operator==(const Vertex& other) const { return this->id_ == other.id_; }
 
@@ -75,7 +75,7 @@ class Graph {
   friend class Parser;
 
  public:
-  Graph(int num_vertices);
+  explicit Graph(int num_vertices);
 
   [[nodiscard]] size_t num_vertices() const { return vertices_.size(); }
   [[nodiscard]] size_t num_arcs() const { return arcs_.size(); }
@@ -93,8 +93,7 @@ class Graph {
 
 template <>
 struct std::hash<Arc> {
-  std::size_t operator()(const Arc& arc) const {
-    auto var_name = arc.variable_name();
-    return std::hash<std::string>{}(var_name);
+  std::size_t operator()(const Arc& arc) const noexcept {
+    return std::hash<std::string>{}(arc.variable_name());
   }
 };
