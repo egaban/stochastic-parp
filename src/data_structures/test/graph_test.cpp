@@ -19,10 +19,12 @@ TEST(GraphTest, TotalCost) {
   const auto vertex2 = graph.vertices_[1];
   const auto vertex3 = graph.vertices_[2];
 
-  const auto arc1 = std::make_shared<Arc>(vertex1, vertex2, std::nullopt, 1, 2);
-  const auto arc2 = std::make_shared<Arc>(vertex2, vertex3, std::nullopt, 1, 8);
+  const auto arc1 =
+      std::make_shared<Arc>(vertex1, vertex2, std::nullopt, 1, 0, 2);
+  const auto arc2 =
+      std::make_shared<Arc>(vertex2, vertex3, std::nullopt, 1, 1, 8);
   const auto arc3 =
-      std::make_shared<Arc>(vertex3, vertex1, std::nullopt, 1, 32);
+      std::make_shared<Arc>(vertex3, vertex1, std::nullopt, 1, 2, 32);
 
   graph.arcs_.push_back(arc1);
   graph.arcs_.push_back(arc2);
