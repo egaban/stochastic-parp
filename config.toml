@@ -1,4 +1,7 @@
 log_level = 'debug'
 
+[model]
+arcs_budget = 0.10
+
 [debug]
 write_model = true

@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
 }
 
 void ConfigureLogger() {
-  auto level = spdlog::level::from_str(Config::GetLogLevel());
+  auto level = spdlog::level::from_str(Config::log_level());
   spdlog::set_level(level);
   spdlog::set_pattern("%^[%l]%$ %v");
 }

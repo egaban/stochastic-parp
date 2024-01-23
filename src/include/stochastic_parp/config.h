@@ -14,14 +14,21 @@ class Config {
   Config(Config&&) = delete;
   Config& operator=(Config&&) = delete;
 
-  [[nodiscard]] static const std::string& GetLogLevel();
-  [[nodiscard]] static bool write_model();
+  [[nodiscard]] static const std::string& log_level() {
+    return Get().log_level_;
+  }
+
+  [[nodiscard]] static bool write_model() { return Get().write_model_; }
+
+  // Maximum budget: the percentage of the total arcs cost sum.
+  [[nodiscard]] static double arcs_budget() { return Get().arcs_budget_; }
 
  private:
-  std::string log_level_ = "info";
-  bool write_model_ = false;
+  std::string log_level_;
+  bool write_model_;
+  double arcs_budget_;
 
-  static const auto& Get() {
+  static const Config& Get() {
     const static Config instance{"config.toml"};
     return instance;
   }
