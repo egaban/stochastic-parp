@@ -40,6 +40,58 @@ class UnionFind {
     }
   }
 
+  [[nodiscard]] int Count() {
+    int result = 0;
+
+    for (int i = 0; i < parent_.size(); i++) {
+      if (Find(i) == i) {
+        result++;
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * Returns the parent of a smallest set that has size >= 2.
+   */
+  [[nodiscard]] int SmallestConnectedSet() {
+    int result = -1;
+    int smallest_component_size = INT_MAX;
+
+    for (int i = 0; i < parent_.size(); i++) {
+      auto parent = Find(i);
+      auto size = size_[parent];
+      if (size >= 2 && size < smallest_component_size) {
+        result = parent;
+        smallest_component_size = size;
+      }
+    }
+
+    if (result == -1) {
+      SPDLOG_ERROR("Every component has size 1.");
+    }
+
+    return result;
+  }
+
+  [[nodiscard]] int Size(int n) {
+    int parent = Find(n);
+    return size_[parent];
+  }
+
+  [[nodiscard]] std::vector<int> SetOf(int n) {
+    std::vector<int> result;
+
+    for (int i = 0; i < parent_.size(); i++) {
+      if (Find(i) == Find(n)) {
+        result.push_back(i);
+      }
+    }
+
+    return result;
+  }
+
  private:
   std::vector<int> parent_;
   std::vector<int> size_;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stochastic_parp/instance.h>
+#include <stochastic_parp/solution.h>
 
 #include <unordered_map>
 
@@ -8,7 +9,7 @@ class GRBEnv;
 class GRBVar;
 class GRBModel;
 
-class Solution {};
+class Solution;
 
 class Model {
  private:
@@ -27,7 +28,7 @@ class Model {
   Model &operator=(const Model &) = delete;
   Model &operator=(Model &&) = delete;
 
-  void Solve();
+  [[nodiscard]] std::optional<Solution> Solve();
 
  private:
   void CreateAllVariables();

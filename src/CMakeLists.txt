@@ -2,6 +2,7 @@ add_library(StochasticPARP
   config.cpp
   parser.cpp
   model.cpp
+  solution.cpp
 )
 
 target_include_directories(

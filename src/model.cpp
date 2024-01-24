@@ -1,4 +1,3 @@
-#include <data_structures/unionfind.h>
 #include <gurobi_c++.h>
 #include <spdlog/spdlog.h>
 #include <stochastic_parp/config.h>
@@ -6,7 +5,19 @@
 
 #include <utility>
 
-#include "gurobi_c.h"
+class ConnectivityCallback : public GRBCallback {
+ private:
+  const Model* model_;
+
+ public:
+  ConnectivityCallback(const Model* model) : model_{model} {}
+
+ protected:
+  void callback() override {
+    if (where == GRB_CB_MIPSOL) {
+    }
+  };
+};
 
 Model::Model(std::shared_ptr<Instance> instance)
     : env_{std::make_unique<GRBEnv>()},
@@ -74,9 +85,30 @@ void Model::CreateMaxBudgetConstraint() {
   this->model_->addConstr(budget_expr, GRB_LESS_EQUAL, budget, "budget");
 }
 
-void Model::Solve() {
+std::optional<Solution> Model::Solve() {
   SPDLOG_INFO("Solving the model");
+
+  auto callback = ConnectivityCallback{this};
+
+  this->model_->setCallback(&callback);
   this->model_->optimize();
+
+  // if (this->model_->get(GRB_IntAttr_Status) == GRB_OPTIMAL) {
+  //   SPDLOG_INFO("Model solved to optimality");
+  //
+  //   Solution solution;
+  //   for (const auto& [arc, var] : this->arc_to_variable_) {
+  //     if (var.get(GRB_DoubleAttr_X) > 0.5) {
+  //       solution.AddArc(arc);
+  //     }
+  //   }
+  // } else if (this->model_->get(GRB_IntAttr_Status) == GRB_INFEASIBLE) {
+  //   SPDLOG_INFO("Model is infeasible");
+  // } else {
+  //   SPDLOG_INFO("Model is infeasible or unbounded");
+  // }
+
+  return std::nullopt;
 }
 
 Model::~Model() = default;

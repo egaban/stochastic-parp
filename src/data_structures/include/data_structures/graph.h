@@ -4,6 +4,7 @@
 #include <memory>
 #include <numeric>
 #include <optional>
+#include <set>
 #include <vector>
 
 class Arc;
@@ -17,6 +18,7 @@ class Vertex {
   std::vector<std::weak_ptr<Block>> blocks_;
 
   friend class Parser;
+  friend class Graph;
 
  public:
   explicit Vertex(int id);
@@ -57,6 +59,10 @@ class Arc {
 
   [[nodiscard]] const auto& from() const { return from_; }
   [[nodiscard]] const auto& to() const { return to_; }
+
+  [[nodiscard]] int from_id() const { return from_.lock()->id(); }
+  [[nodiscard]] int to_id() const { return to_.lock()->id(); }
+
   [[nodiscard]] int profit() const {
     return profit_;
     ;
@@ -93,6 +99,16 @@ class Graph {
         arcs_.begin(), arcs_.end(), 0.0,
         [](int sum, const auto& arc) { return sum + arc->cost(); });
   }
+
+  /**
+   * Given a set of vertices, returns the arcs that have the tail in the set and
+   * the head outside of the set.
+   */
+  [[nodiscard]] std::vector<std::shared_ptr<Arc>> OutgoingCutOf(
+      std::set<int> vertices_ids) const;
+
+ private:
+  void AddArc(std::shared_ptr<Arc> arc);
 };
 
 template <>

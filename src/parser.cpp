@@ -116,10 +116,6 @@ void Parser::ParseArcs(Instance& instance) {
     }
 
     auto arc = std::make_shared<Arc>(from, to, block, profit, i, size);
-
-    instance.graph_.arcs_.emplace_back(arc);
-
-    instance.graph_.vertices_[from_num]->outgoing_arcs_.emplace_back(arc);
-    instance.graph_.vertices_[to_num]->incoming_arcs_.emplace_back(arc);
+    instance.graph_.AddArc(arc);
   }
 }
