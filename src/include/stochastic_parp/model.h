@@ -35,6 +35,5 @@ class Model {
   void CreateAllConstraints();
   void CreateContinuityConstraints();
 
-  // TODO: Think in a budget. For now using 5% of total of arcs.
   void CreateMaxBudgetConstraint();
 };
