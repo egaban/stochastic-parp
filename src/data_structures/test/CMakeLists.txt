@@ -1,5 +1,6 @@
 add_executable(data_structures_test
   graph_test.cpp
+  unionfind_test.cpp
 )
 
 target_link_libraries(data_structures_test
